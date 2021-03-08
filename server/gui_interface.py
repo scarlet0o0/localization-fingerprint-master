@@ -156,6 +156,10 @@ def print_x_y(event): # 클릭한 곳에 현실좌표 출력 하는 함수
     real_y = event.y * su.real_height // picture_height
     print("현실 x좌표: ", real_x, "현실 y좌표: ", real_y)
 
+def end():
+    print("창닫기")
+    root.qui
+
 #연습용 코드들 다 끝나면 지워도 무방
 def de(q):
     while True:
@@ -176,17 +180,14 @@ def de(q):
         q.put(133443)
         q.put(23443)
         time.sleep(1)
-def end(q):
-
-    print("창닫기")
-    root.qui
 
 
-def gui_interface2(q):  # gui 화면 처리하는 함수
+
+def gui_interface2(q):  # gui 화면 처리하는 함수 닫고 끌수 있음
     global canvas, canvas_image, picture_width, picture_height, copy_of_image, root, id_arr
 
     root = Tk()
-    root.title("GUI")
+    root.title("GUI1")
     root.resizable(True, True)
 
     image = Image.open(su.MAP_IMAGE_FILENALE)  # 이미지 오픈
@@ -202,7 +203,8 @@ def gui_interface2(q):  # gui 화면 처리하는 함수
     canvas.bind('<Configure>', resize_image)  # 창의 크기가 변경되면 resize_image함수 실행
     canvas.bind('<Button-1>', print_x_y)  # 마우스 클릭한 곳에 현실위치 출력
     root.update()
-    num = 1
+
+    window_on = 1
     my_x = 0
     my_y = 0
     a = None
@@ -213,19 +215,19 @@ def gui_interface2(q):  # gui 화면 처리하는 함수
             userID = q.get()
             x = q.get()
             y = q.get()
-
+            print("DATA from Q : ", userID, x, y)
             if su.PRINT_DEBUG: print("DATA from Q : ", userID, x, y)
 
-            if y == 19443:
-                if num == 1:
+            if x != 143939 and y != 4534:
+                if window_on == 1:
                     print("창닫기")
                     root.destroy()
-                    num = 0
+                    window_on = 0
             else:
-                if num == 0:
+                if window_on == 0:
                     print("창 실행")
                     root = Tk()
-                    root.title("GUI")
+                    root.title("GUI1")
                     root.resizable(True, True)
 
                     image = Image.open(su.MAP_IMAGE_FILENALE)  # 이미지 오픈
@@ -241,15 +243,16 @@ def gui_interface2(q):  # gui 화면 처리하는 함수
                     canvas.bind('<Configure>', resize_image)  # 창의 크기가 변경되면 resize_image함수 실행
                     canvas.bind('<Button-1>', print_x_y)  # 마우스 클릭한 곳에 현실위치 출력
                     root.update()
-                    num = 1
+                    window_on = 1
 
                 if my_x != x or my_y != y:
+                    print("위치이동",my_x,"->",x," ",my_y,"->",y)
                     canvas.delete(a)
                     my_x,my_y = x,y
-                    x, y = return_image_coordinates(x, y)
-                    a=canvas.create_text(x, y, text=userID, font=("나눔고딕코딩", 8), fill="red")
+                    my_image_x, my_image_y = return_image_coordinates(x, y)
+                    a=canvas.create_text(my_image_x, my_image_y, text=userID, font=("나눔고딕코딩", 8), fill="red")
+                    root.update()  # 화면 업데이트
 
-                root.update()  # 화면 업데이트
 
         try:
             root.update_idletasks()  # 잘 모르겠는데, 같이 쓰더라

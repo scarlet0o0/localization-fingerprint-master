@@ -26,11 +26,11 @@ eps = 1  # distance = 0인 경우에는 매우 작은 숫자(eps)를 넣어서 d
 공학관 서측(유봉여고쪽) 공간을 사용하는 경우
 """
 #MAP_IMAGE_FILENALE = "EngrBldg1stFloor.png"
-MAP_IMAGE_FILENALE = "../map/engr-left/img/ex_map.jpg"
+MAP_IMAGE_FILENALE = "map/engr-left/img/ex_map.jpg"
 real_width = 159550 #현실 가로 길이
 real_height = 44200 #현실 세로 길이
-real_location_x_list = [143939,60835,133443,23443]  #현실 가로 축 모임
-real_location_y_list = [4534,9964,19443,23443,23443]  #현실 세로 축 모임
+real_location_x_list = [143939,96648,60835,23443]  #현실 가로 축 모임
+real_location_y_list = [4534,8111,9964,23443,23443]  #현실 세로 축 모임
 
 
 class myQueue:
