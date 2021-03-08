@@ -76,7 +76,7 @@ def gui_interface1():  # gui 화면 띄우는 함수
     root.title("GUI1")
     root.resizable(True, True)
 
-    image = Image.open(su.MAP_IMAGE_FILENALE)  # 이미지 오픈
+    image = Image.open(su.MAP_IMAGE_FILENALE2)  # 이미지 오픈
     copy_of_image = image.copy()  # 카피 본 저장
     photo = ImageTk.PhotoImage(image)
 
@@ -208,7 +208,7 @@ def end():
 
 def window_open(x,y):
     gui_num = 0
-    if x == 143939 and y == 4534:
+    if x == 96648 and y == 8111:
         gui_num = 1
     elif x == 243939 and y == 2534:
         gui_num = 2
