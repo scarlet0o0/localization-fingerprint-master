@@ -76,7 +76,7 @@ def gui_interface1():  # gui 화면 띄우는 함수
     root.title("GUI1")
     root.resizable(True, True)
 
-    image = Image.open(su.MAP_IMAGE_FILENALE2)  # 이미지 오픈
+    image = Image.open(su.MAP_IMAGE_FILENALE)  # 이미지 오픈
     copy_of_image = image.copy()  # 카피 본 저장
     photo = ImageTk.PhotoImage(image)
 
@@ -105,6 +105,7 @@ def gui_interface2(q):
             x = q.get()
             y = q.get()
             gui_close_num=window_open(x,y)
+            print("gui_close_num:",gui_close_num)
             print("DATA from Q : ", userID, x, y)
             if su.PRINT_DEBUG: print("DATA from Q : ", userID, x, y)
             if gui_close_num != 1:
@@ -208,9 +209,9 @@ def end():
 
 def window_open(x,y):
     gui_num = 0
-    if x == 96648 and y == 8111:
+    if x == 18129 and y == 2142:
         gui_num = 1
-    elif x == 243939 and y == 2534:
+    elif x == 11832 and y == 4055:
         gui_num = 2
     else:
         gui_num = 0

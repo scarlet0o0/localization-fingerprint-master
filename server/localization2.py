@@ -4,7 +4,6 @@ import numpy as np
 import server_utils as su
 
 # 하나의 소켓만 받는게 아닌 여러개의 소켓을 받음
-
 def localization_function(q):
     sys.path.append('../')
     import common
@@ -53,10 +52,12 @@ def localization_function(q):
     print('Waiting for connection ...')
     svr_sock.listen(5)
 
-    # 두개의 소켓 연결
+    # 세개의 소켓 연결
     cli_sock, addr = svr_sock.accept() # 라즈베리파이
     print('Got connection from ...', addr)
-    cli_sock2, addr2 = svr_sock.accept() #다른 노트북
+    cli_sock2, addr2 = svr_sock.accept() # 다른 노트북
+    print('Got connection from ...', addr2)
+    cli_sock3, addr3 = svr_sock.accept()  # 다른 노트북
     print('Got connection from ...', addr2)
 
     client_radio_map = []  # 클라이언트의 현재상태를 나타내는 radio-map은 매번 새로 만들자
@@ -141,6 +142,7 @@ def localization_function(q):
         str_user_real_y = str(user_real_y)
         user_id_x_y=user_id+" "+str_user_real_x+" "+str_user_real_y
         cli_sock2.sendall(user_id_x_y.encode('utf-8'))
+        cli_sock3.sendall(user_id_x_y.encode('utf-8'))
 
         # queue에다 id, x, y 순서대로 저장
         # queue를 이용해서 gui 프로그램에게 사용자 위치를 전달한다.

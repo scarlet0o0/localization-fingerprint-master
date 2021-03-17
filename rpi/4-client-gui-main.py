@@ -1,7 +1,11 @@
 
 from client_main import client
+import sys
+sys.path.append('../')
 from sunhong import gui_interface2
+sys.path.append('../')
 from sunhong import server2
+
 import threading
 from queue import Queue
 

@@ -3,7 +3,7 @@ Define some commonly-used values
 
 """
 
-server_ip = "121.189.187.172"  # 서버의 IP 주소
+server_ip = "10.50.244.128"  # 서버의 IP 주소
 server_port = 9999  # 서버의 포트 번호
 BUF_SIZE = 4096  # 서버-클라이언트간에 소켓통신 할때 사용. 한번에 보내고/받을 메시지 최대 크기
 tar_name = 'archieve.tar.gz'  # 클라이언트가 radio-map 생성을 위한 rss 값을 측정하고, 압축해서 서버로 보내는데, 그 압축파일 이름

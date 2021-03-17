@@ -4,7 +4,7 @@ import socket
 import numpy as np
 import server_utils as su
 from localization2 import localization_function
-from gui_interface import gui_interface2
+from sunhong import gui_interface2
 
 # 이선홍이 작성한 서버 gui 코드를 위한 import
 import pickle, math
