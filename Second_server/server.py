@@ -12,15 +12,16 @@ def server2(q): # 두번째 서버
     while True:
         msgFromClient = cli_socket.recv(common.BUF_SIZE).decode('utf-8')
         print(msgFromClient)
-        id = msgFromClient.split(' ')[0]
-        x = int(msgFromClient.split(' ')[1])
-        y = int(msgFromClient.split(' ')[2])
-        print(id)
-        print(x)
-        print(y)
-        q.put(id)
-        q.put(x)
-        q.put(y)
+        if msgFromClient:
+            id = msgFromClient.split(' ')[0]
+            x = int(float(msgFromClient.split(' ')[1]))
+            y = int(float(msgFromClient.split(' ')[2]))
+            print(id)
+            print(x)
+            print(y)
+            q.put(id)
+            q.put(x)
+            q.put(y)
         time.sleep(common.sleep_sec)
 
 
@@ -209,9 +210,9 @@ def end():
 
 def window_open(x,y):
     gui_num = 0
-    if x == 18129 and y == 2142:
+    if x > 20381 and x < 24809 and y > 267 and y < 5318:
         gui_num = 1
-    elif x == 11832 and y == 4055:
+    elif x > 7061 and x < 11412 and y > 267 and y < 5318:
         gui_num = 2
     else:
         gui_num = 0

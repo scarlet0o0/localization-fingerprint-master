@@ -165,20 +165,20 @@ def de(q):
     while True:
         print("위치이동1")
         q.put("qwe")
-        q.put(23443)
-        q.put(23443)
+        q.put(22709)
+        q.put(5471)
         time.sleep(1)
 
         print("위치이동2")
         q.put("qwe")
-        q.put(83443)
-        q.put(23443)
+        q.put(22709)
+        q.put(5471)
         time.sleep(1)
 
         print("위치이동3")
         q.put("qwe")
-        q.put(133443)
-        q.put(23443)
+        q.put(22709)
+        q.put(5471)
         time.sleep(1)
 
 
@@ -218,7 +218,7 @@ def gui_interface2(q):  # gui 화면 처리하는 함수 닫고 끌수 있음
             print("DATA from Q : ", userID, x, y)
             if su.PRINT_DEBUG: print("DATA from Q : ", userID, x, y)
 
-            if x != 143939 and y != 4534:
+            if x != 22709 and y != 5471:
                 if window_on == 1:
                     print("창닫기")
                     root.destroy()

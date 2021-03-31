@@ -14,7 +14,7 @@ def client():
         os.mkdir(out_dir)
 
     out_filename_base = common.dir_name_realtime + '/' + 'client-measure-realtime'
-    wifi_dev_name = 'wlan0'
+    wifi_dev_name = 'wlan1'
     scan_cmd_base = "sudo iwlist " + wifi_dev_name + " scan | grep -E 'level|Address' | sed 's/level=//' | awk '{ if ( $1 == \"Cell\" ) { print $5 } if ( $2 == \"Signal\" ) { print $3 } }'"
 
     # 클라이언트 소켓 생성

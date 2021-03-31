@@ -29,8 +29,8 @@ eps = 1  # distance = 0인 경우에는 매우 작은 숫자(eps)를 넣어서 d
 MAP_IMAGE_FILENALE = "map/engr-left/img/ex_map.jpg"
 real_width = 25000 #현실 가로 길이
 real_height = 28200 #현실 세로 길이
-real_location_x_list = [18129,11832,9465,23443]  #현실 가로 축 모임
-real_location_y_list = [2142,4055,5816,23443,23443]  #현실 세로 축 모임
+real_location_x_list = [7938,9465,10687,12290,13854,15114,16793,18091,19618,21221,22595,23854]  #현실 가로 축 모임
+real_location_y_list = [4438,2563,1186]  #현실 세로 축 모임
 
 
 class myQueue:

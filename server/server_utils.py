@@ -30,8 +30,8 @@ MAP_IMAGE_FILENALE = "../map/engr-left/img/ex_map.jpg"
 MAP_IMAGE_FILENALE2 = "/map/engr-left/img/ex_map.jpg"
 real_width = 25000 #현실 가로 길이
 real_height = 28200 #현실 세로 길이
-real_location_x_list = [5471]  #현실 가로 축 모임
-real_location_y_list = [22709,15877,9465]  #현실 세로 축 모임
+real_location_x_list = [15976,16820,17504,18368,19111,19734,20719,21503,22186,23030,23673,24296]  #현실 가로 축 모임
+real_location_y_list = [4358,2615,1061]  #현실 세로 축 모임
 
 
 class myQueue:

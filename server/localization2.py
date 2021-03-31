@@ -2,6 +2,7 @@ import os, sys
 import socket
 import numpy as np
 import server_utils as su
+import serial
 
 # 하나의 소켓만 받는게 아닌 여러개의 소켓을 받음
 def localization_function(q):
@@ -43,6 +44,11 @@ def localization_function(q):
                     ap_mac = ap_list[ap]
                     print('y=%d, x=%d, ap=%s, rss=%d' \
                           % (y, x, ap_mac, int(radio_map[y][x][ap])))
+
+    #아두이노 연결
+    s = serial.Serial('COM10', 9600, timeout=2)
+    if not s.isOpen():
+        s.open()
 
     # 클라이언트와의 소켓 통신 준비
     svr_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -136,11 +142,15 @@ def localization_function(q):
             su.get_real_location_xy(cell_blocks, distances, su.how_many, su.weighted_knn)
         print('User location : %f, %f' % (user_real_x, user_real_y))
 
+        line = str(s.readline())
+        line = line[2:6]
+        # print(line)
+
         user_id = su.DEFAULT_USER_ID  # 일단 보류
 
         str_user_real_x = str(user_real_x)
         str_user_real_y = str(user_real_y)
-        user_id_x_y=user_id+" "+str_user_real_x+" "+str_user_real_y
+        user_id_x_y=user_id+" "+str_user_real_x+" "+str_user_real_y+" "+line
         cli_sock2.sendall(user_id_x_y.encode('utf-8'))
         cli_sock3.sendall(user_id_x_y.encode('utf-8'))
 
@@ -149,6 +159,7 @@ def localization_function(q):
         q.put(user_id)
         q.put(user_real_x)
         q.put(user_real_y)
+        q.put(line)
 
     # except:
     print('Finishing up the server program...')
