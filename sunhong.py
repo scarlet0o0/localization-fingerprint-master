@@ -81,7 +81,7 @@ def gui_interface():  # gui 화면 띄우는 함수
     root.title("GUI1")
     root.resizable(True, True)
 
-    image = Image.open("ex_map1.png")  # su.MAP_IMAGE_FILENALE
+    image = Image.open(su.MAP_IMAGE_FILENALE)  # su.MAP_IMAGE_FILENALE
     copy_of_image = image.copy()  # 카피 본 저장
     photo = ImageTk.PhotoImage(image)
 
@@ -100,10 +100,10 @@ def gui_interface_fire():  # gui 화면 띄우는 함수
     global canvas, canvas_image, picture_width, picture_height, copy_of_image, root, id_arr
 
     root = Tk()
-    root.title("GUI1")
+    root.title("fire1")
     root.resizable(True, True)
 
-    image = Image.open("ex_map2.PNG")  # su.MAP_IMAGE_FILENALE
+    image = Image.open(su.MAP_IMAGE_FILENALE2)  # su.MAP_IMAGE_FILENALE
     copy_of_image = image.copy()  # 카피 본 저장
     photo = ImageTk.PhotoImage(image)
 
@@ -130,7 +130,7 @@ def gui_interface2(q):
     while True:
 
         if q.qsize() == 4:  # q에는 id,x,y순서로 데이터가 들어있어야 한다.
-            assert q.qsize() >= 4, 'Q size must >= 3'
+            assert q.qsize() >= 4, 'Q size must > 4'
 
             userID = q.get()
             x = q.get()
@@ -142,7 +142,7 @@ def gui_interface2(q):
             if su.PRINT_DEBUG: print("DATA from Q : ", userID, x, y)
             if gui_close_num == 1 and line != "FIRE":
                 if window_fire_on:
-                    print("창닫기")
+                    print("불창닫기")
                     root.destroy()
                     window_fire_on = False
 
@@ -272,9 +272,9 @@ def window_open(x,y):
     if x> 22508 and x < 24799 and y > 0 and y < 5761:
         gui_num = 1
     elif x >15474 and x<17725 and y>0 and y<5761:
-        gui_num = 1
+        gui_num = 2
     else:
-        gui_num = 1
+        gui_num = 0
     return gui_num
 
 # 연습용 코드들 다 끝나면 지워도 무방

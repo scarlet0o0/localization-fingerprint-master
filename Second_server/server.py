@@ -1,8 +1,8 @@
-
 import socket
 import common
 import time
-
+import serial
+from serial import Serial
 def server2(q): # 두번째 서버
     cli_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     print('Connecting to...', common.server_ip, common.server_port)
@@ -16,12 +16,15 @@ def server2(q): # 두번째 서버
             id = msgFromClient.split(' ')[0]
             x = int(float(msgFromClient.split(' ')[1]))
             y = int(float(msgFromClient.split(' ')[2]))
+            line = msgFromClient.split(' ')[3]
             print(id)
             print(x)
             print(y)
+            print(line)
             q.put(id)
             q.put(x)
             q.put(y)
+            q.put(line)
         time.sleep(common.sleep_sec)
 
 
@@ -70,14 +73,36 @@ class Usar:  # 사용자 클래스
     def getText(self):  # 사용자의 객체 리턴
         return self.text
 
-def gui_interface1():  # gui 화면 띄우는 함수
+def gui_interface():  # gui 화면 띄우는 함수
     global canvas, canvas_image, picture_width, picture_height, copy_of_image, root, id_arr
 
     root = Tk()
     root.title("GUI2")
     root.resizable(True, True)
 
-    image = Image.open("resource/ex_map.jpg")  # 이미지 오픈
+    image = Image.open("resource/ex_map1.png")  # su.MAP_IMAGE_FILENALE
+    copy_of_image = image.copy()  # 카피 본 저장
+    photo = ImageTk.PhotoImage(image)
+
+    picture_width, picture_height = image.size  # 사진 크기 저장
+
+    canvas = Canvas(root, width=picture_width, height=picture_height)  # 캔버스
+    canvas.pack(fill="both", expand=True)
+    canvas_image = canvas.create_image(0, 0, anchor=NW, image=photo)  # 캔버스에 이미지 추가
+
+    canvas.bind('<Configure>', resize_image)  # 창의 크기가 변경되면 resize_image함수 실행
+    canvas.bind('<Button-1>', print_x_y)  # 마우스 클릭한 곳에 현실위치 출력
+    root.update()
+    return root, canvas
+
+def gui_interface_fire():  # gui 화면 띄우는 함수
+    global canvas, canvas_image, picture_width, picture_height, copy_of_image, root, id_arr
+
+    root = Tk()
+    root.title("fire2")
+    root.resizable(True, True)
+
+    image = Image.open("resource/ex_map2.PNG")  # su.MAP_IMAGE_FILENALE
     copy_of_image = image.copy()  # 카피 본 저장
     photo = ImageTk.PhotoImage(image)
 
@@ -93,43 +118,76 @@ def gui_interface1():  # gui 화면 띄우는 함수
     return root, canvas
 
 def gui_interface2(q):
-    root, canvas = gui_interface1()
-    window_on = 1
+
+    root, canvas = gui_interface()
+    window_on = True
+    window_fire_on = False
     my_x = 0
     my_y = 0
     a = None
+
     while True:
-        if q.qsize() == 3:  # q에는 id,x,y순서로 데이터가 들어있어야 한다.
-            assert q.qsize() >= 3, 'Q size must >= 3'
+
+        if q.qsize() == 4:  # q에는 id,x,y순서로 데이터가 들어있어야 한다.
+            assert q.qsize() >= 4, 'Q size must >= 3'
 
             userID = q.get()
             x = q.get()
             y = q.get()
+            line = q.get()
             gui_close_num=window_open(x,y)
-            print("gui_close_num:", gui_close_num)
+            print("gui_close_num:",gui_close_num)
             print("DATA from Q : ", userID, x, y)
             if su.PRINT_DEBUG: print("DATA from Q : ", userID, x, y)
-            if gui_close_num != 2:
-                if window_on == 1:
+            if gui_close_num == 2 and line != "FIRE":
+                if window_fire_on:
                     print("창닫기")
                     root.destroy()
-                    window_on = 0
-            else:
-                if window_on == 0:
+                    window_fire_on = False
+
+                if not window_on:
                     print("창 실행")
-                    root, canvas = gui_interface1()
+                    root, canvas = gui_interface()
                     my_x, my_y = x, y
                     my_image_x, my_image_y = return_image_coordinates(x, y)
-                    a = canvas.create_text(my_image_x, my_image_y, text=userID, font=("나눔고딕코딩", 8), fill="red")
-                    window_on = 1
+                    a = canvas.create_text(my_image_x, my_image_y, text=userID, font=("나눔고딕코딩", 10), fill="red")
+                    window_on = True
 
+                # 실시간 위치 이동
                 if my_x != x or my_y != y:
                     print("위치이동", my_x, "->", x, " ", my_y, "->", y)
-                    my_x,my_y=x,y
+                    my_x, my_y = x, y
                     canvas.delete(a)
                     my_image_x, my_image_y = return_image_coordinates(x, y)
-                    a = canvas.create_text(my_image_x, my_image_y, text=userID, font=("나눔고딕코딩", 8), fill="red")
+                    a = canvas.create_text(my_image_x, my_image_y, text=userID, font=("나눔고딕코딩", 10), fill="red")
                     root.update()  # 화면 업데이트
+            elif gui_close_num == 2 and line =="FIRE":
+                if window_on:
+                    print("지도 창닫기")
+                    root.destroy()
+                    window_on = False
+
+                if not window_fire_on:
+                    print("불 창 실행")
+                    root, canvas = gui_interface_fire()
+                    my_x, my_y = x, y
+                    my_image_x, my_image_y = return_image_coordinates(x, y)
+                    a = canvas.create_text(my_image_x, my_image_y, text=userID, font=("나눔고딕코딩", 10), fill="red")
+                    window_fire_on = True
+
+                    # 실시간 위치 이동
+                if my_x != x or my_y != y:
+                    print("위치이동", my_x, "->", x, " ", my_y, "->", y)
+                    my_x, my_y = x, y
+                    canvas.delete(a)
+                    my_image_x, my_image_y = return_image_coordinates(x, y)
+                    a = canvas.create_text(my_image_x, my_image_y, text=userID, font=("나눔고딕코딩", 10), fill="red")
+                    root.update()  # 화면 업데이트
+            else:
+                if window_on or window_fire_on:
+                    print("창닫기")
+                    root.destroy()
+                    window_on = False
 
         try:
             root.update_idletasks()  # 잘 모르겠는데, 같이 쓰더라
@@ -210,9 +268,9 @@ def end():
 
 def window_open(x,y):
     gui_num = 0
-    if x > 20381 and x < 24809 and y > 267 and y < 5318:
+    if x> 22508 and x < 24799 and y > 0 and y < 5761:
         gui_num = 1
-    elif x > 7061 and x < 11412 and y > 267 and y < 5318:
+    elif x >15474 and x<17725 and y>0 and y<5761:
         gui_num = 2
     else:
         gui_num = 0
